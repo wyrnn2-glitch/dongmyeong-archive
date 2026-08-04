@@ -12,25 +12,20 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 body {
+  margin: 0;
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Pretendard", Arial, Helvetica, sans-serif;
 }
 
-/* 동명 저장소 달력 */
+/* ========================================
+   UNREAL 아카이브 달력
+======================================== */
 
 .dongmyeong-calendar {
   width: 100%;
-  max-width: 550px;
-  max-length: 550px;
+  max-width: 620px;
   border: none !important;
   background: transparent !important;
   font-family: inherit;
@@ -45,7 +40,7 @@ body {
 .dongmyeong-calendar .react-calendar__month-view__weekdays {
   margin-bottom: 14px;
   text-align: center;
-  font-size: 15px;
+  font-size: 17px;
   font-weight: 800;
   color: #4b5563;
 }
@@ -61,27 +56,28 @@ body {
   text-decoration: none;
 }
 
-/* 일요일 요일 */
-
-.dongmyeong-calendar
-  .react-calendar__month-view__weekdays__weekday:first-child {
-  color: #dc2626 !important;
-}
-
+/* 월요일 시작 달력 기준 */
 /* 토요일 요일 */
 
 .dongmyeong-calendar
-  .react-calendar__month-view__weekdays__weekday:last-child {
+  .react-calendar__month-view__weekdays__weekday:nth-child(6) {
   color: #2563eb !important;
+}
+
+/* 일요일 요일 */
+
+.dongmyeong-calendar
+  .react-calendar__month-view__weekdays__weekday:nth-child(7) {
+  color: #dc2626 !important;
 }
 
 /* 날짜 버튼 */
 
 .dongmyeong-calendar .react-calendar__tile {
   position: relative;
-  height: 78px;
-  min-height: 78px;
-  padding: 30px 3px 30px;
+  min-height: 82px;
+  padding: 14px 4px 30px;
+  border: none;
   border-radius: 16px;
   background: transparent;
   color: #374151;
@@ -89,59 +85,85 @@ body {
   font-weight: 600;
   transition:
     background-color 0.2s ease,
-    transform 0.2s ease;
+    color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
+/* 날짜 hover */
+
 .dongmyeong-calendar .react-calendar__tile:hover {
-  background: #fef3c7 !important;
+  background: #ffe8f2 !important;
   transform: translateY(-1px);
 }
 
-/* 다른 달 날짜 */
+/* 현재 달 토요일 */
+
+.dongmyeong-calendar
+  .react-calendar__month-view__days__day:nth-child(7n + 6):not(
+    .react-calendar__month-view__days__day--neighboringMonth
+  ) {
+  color: #2563eb !important;
+}
+
+/* 현재 달 일요일 */
+
+.dongmyeong-calendar
+  .react-calendar__month-view__days__day:nth-child(7n):not(
+    .react-calendar__month-view__days__day--neighboringMonth
+  ) {
+  color: #dc2626 !important;
+}
+
+/* 이전 달·다음 달 날짜는 요일과 관계없이 연한 회색 */
 
 .dongmyeong-calendar
   .react-calendar__month-view__days__day--neighboringMonth {
   color: #d1d5db !important;
 }
 
-/* 일요일 날짜 */
-
-.dongmyeong-calendar
-  .react-calendar__month-view__days__day:nth-child(7n + 1) {
-  color: #dc2626 !important;
-}
-
-/* 토요일 날짜 */
-
-.dongmyeong-calendar
-  .react-calendar__month-view__days__day:nth-child(7n) {
-  color: #2563eb !important;
-}
-
 /* 오늘 날짜 */
 
 .dongmyeong-calendar .react-calendar__tile--now {
   background: #ffffff !important;
-  box-shadow: inset 0 0 0 2px #fbbf24;
+  box-shadow: inset 0 0 0 2px #ffb5d4;
+}
+
+/* 오늘 날짜 hover */
+
+.dongmyeong-calendar .react-calendar__tile--now:hover {
+  background: #fff4f8 !important;
 }
 
 /* 선택한 날짜 */
 
 .dongmyeong-calendar .react-calendar__tile--active {
-  background: #fbbf24 !important;
-  color: #ffffff !important;
-  box-shadow: none;
+  background: #fff4f8 !important;
+  color: #ff7eb5 !important;
+  box-shadow: inset 0 0 0 2px #ffb5d4;
 }
 
-/* 선택된 토요일·일요일도 흰색 */
+/* 선택한 날짜 hover */
+
+.dongmyeong-calendar .react-calendar__tile--active:hover {
+  background: #ffe8f2 !important;
+  color: #ff7eb5 !important;
+}
+
+/* 선택된 토요일·일요일도 핑크 글씨 유지 */
 
 .dongmyeong-calendar
   .react-calendar__tile--active.react-calendar__month-view__days__day {
-  color: #ffffff !important;
+  color: #ff7eb5 !important;
 }
 
-.dongmyeong-calendar .react-calendar__tile--active:hover {
-  background: #f59e0b !important;
+/* 오늘이면서 선택된 날짜 */
+
+.dongmyeong-calendar
+  .react-calendar__tile--now.react-calendar__tile--active {
+  background: #fff4f8 !important;
+  color: #ff7eb5 !important;
+  box-shadow: inset 0 0 0 2px #ffb5d4;
 }
 
 /* 공연 표시 */
@@ -161,19 +183,57 @@ body {
   white-space: nowrap;
 }
 
-/* 선택된 날짜의 공연 표시 */
+/* 공연 개수 위 첨자 */
+
+.dongmyeong-calendar .concert-marker sup {
+  position: relative;
+  top: -2px;
+  color: #ff7eb5;
+  font-size: 9px;
+  font-weight: 800;
+}
+
+/* 선택한 날짜의 공연 표시 */
 
 .dongmyeong-calendar
   .react-calendar__tile--active
   .concert-marker {
-  color: #ffffff;
+  color: #ff7eb5;
 }
 
-/* 모바일 */
+/* 선택한 날짜의 공연 개수 */
 
-@media (max-width: 600px) {
+.dongmyeong-calendar
+  .react-calendar__tile--active
+  .concert-marker
+  sup {
+  color: #ff7eb5;
+}
+
+/* 키보드 포커스 */
+
+.dongmyeong-calendar .react-calendar__tile:focus-visible {
+  outline: 3px solid #ffb5d4;
+  outline-offset: 2px;
+}
+
+/* ========================================
+   모바일
+======================================== */
+
+@media (max-width: 640px) {
+  .dongmyeong-calendar {
+    max-width: 100%;
+  }
+
   .dongmyeong-calendar .react-calendar__month-view__weekdays {
+    margin-bottom: 10px;
     font-size: 15px;
+  }
+
+  .dongmyeong-calendar
+    .react-calendar__month-view__weekdays__weekday {
+    padding: 7px 0;
   }
 
   .dongmyeong-calendar .react-calendar__tile {
@@ -186,5 +246,9 @@ body {
   .dongmyeong-calendar .concert-marker {
     bottom: 6px;
     font-size: 12px;
+  }
+
+  .dongmyeong-calendar .concert-marker sup {
+    font-size: 8px;
   }
 }
